@@ -1,0 +1,6 @@
+interface Combo {
+  value: String! @id @search(by: [hash])
+  text: String!  
+}
+
+type Area implements Combo
