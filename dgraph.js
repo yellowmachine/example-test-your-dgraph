@@ -21,43 +21,42 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-exports.dgraph = async function(url, name){
-    if(name.endsWith(".js")) data = require(name)
-    else data = await loadSchema(name)
+exports.dgraph = function(url, name){
+    return async function(){
+        if(name.endsWith(".js")) data = require(name)
+        else data = await loadSchema(name)
+        
+        //data = data + config.schemaFooter(config)
+        const schema = data.toString()
     
-    //data = data + config.schemaFooter(config)
-    const schema = data.toString()
-
-    console.log(schema)
-
-    while(true){        
-        console.log('inside while true')
-        let response = await axios({
-          url,
-          method: 'post',
-          data: {
-            query: `mutation($schema: String!) {
-              updateGQLSchema(input: { set: { schema: $schema } }) {
-                gqlSchema {
-                  schema
+        while(true){        
+            let response = await axios({
+              url,
+              method: 'post',
+              data: {
+                query: `mutation($schema: String!) {
+                  updateGQLSchema(input: { set: { schema: $schema } }) {
+                    gqlSchema {
+                      schema
+                    }
+                  }
                 }
-              }
+                `,
+                variables: {
+                  schema,
+                },
+              },
+            })
+    
+            if(!response.data.errors){
+              break
             }
-            `,
-            variables: {
-              schema,
-            },
-          },
-        })
-
-        if(!response.data.errors){
-          break
+    
+            if(!response.data.errors[0].message.startsWith('failed to lazy-load GraphQL schema')){
+                console.log(response.data.errors[0].message)
+                throw new Error('')
+            }
+            await sleep(2000)
         }
-
-        if(!response.data.errors[0].message.startsWith('failed to lazy-load GraphQL schema')){
-            console.log(response.data.errors[0].message)
-            //throw new Error('')
-        }
-        await sleep(2000)
     }
 }

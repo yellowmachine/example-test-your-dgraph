@@ -8,7 +8,7 @@ function test(){
     npm().run('test');
 }
 
-const {up, down} = docker({name: "my-container-dgraph-v5", 
+const {up, down} = docker({name: "my-container-dgraph-v6", 
                            image: "dgraph/standalone:master", 
                            port: "8080", 
                            waitOn: "http://localhost:8080"
@@ -16,19 +16,21 @@ const {up, down} = docker({name: "my-container-dgraph-v5",
 
 async function main(){
     let ok = await pipe(up)
-
-    if(ok){
-        await watch({files: ["./tests/*.js", "./schema/*.graphql"], quit: 'q', f: async (quit)=>{
+    if(!ok){
+        console.log("No se ha podido comenzar la imagen de docker")
+    }
+    else{
+        await watch({files: ["./tests/*.js", "./schema/*.*"], 
+                     quit: 'q', 
+                     f: async (quit)=>{
             ok = await pipe(dgraph('http://localhost:8080/admin', 
                                    './schema/schema.graphql'), 
                             test
                         ) 
-            //if(!ok)   
-            //    quit()
+            if(!ok)   
+                quit()
         }})
         await pipe(down)
-    }else{
-        console.log("No se ha podido comenzar la imagen de docker")
     }
 }
 
