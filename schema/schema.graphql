@@ -1,6 +1,12 @@
-interface Combo {
-  value: String! @id @search(by: [hash])
-  text: String!  
-}
+#include enum.graphql
 
-type Area implements Combo
+type Job @auth(
+    query: {
+        rule:  "{$ROLE: { eq: \"ADMIN\" } }" 
+    }
+){
+    id: ID!
+    title: String!
+    completed: Boolean!
+    command: String!
+}

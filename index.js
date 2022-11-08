@@ -2,7 +2,7 @@ const {pipe, watch} = require("yellow-machine")
 const npm = require('npm-commands')
 const {docker} = require('./docker')
 const {dgraph} = require('./dgraph')
-
+const config = require("./config")
 
 function test(){
     npm().run('test');
@@ -23,12 +23,9 @@ async function main(){
         await watch({files: ["./tests/*.js", "./schema/*.*"], 
                      quit: 'q', 
                      f: async (quit)=>{
-            ok = await pipe(dgraph('http://localhost:8080/admin', 
-                                   './schema/schema.graphql'), 
-                            test
-                        ) 
-            if(!ok)   
-                quit()
+            ok = await pipe(dgraph(config), test) 
+            //if(!ok)   
+            //    quit()
         }})
         await pipe(down)
     }
