@@ -1,4 +1,4 @@
-const {pipe, watch} = require("yellow-machine")
+const {pipe, awatch} = require("yellow-machine")
 const npm = require('npm-commands')
 const {docker} = require('./docker')
 const {dgraph} = require('./dgraph')
@@ -14,21 +14,16 @@ const {up, down} = docker({name: "my-container-dgraph-v6",
                            waitOn: "http://localhost:8080"
                         })
 
-async function main(){
-    let ok = await pipe(up)
-    if(!ok){
-        console.log("No se ha podido comenzar la imagen de docker")
-    }
-    else{
-        await watch({files: ["./tests/*.js", "./schema/*.*"], 
-                     quit: 'q', 
-                     f: async (quit)=>{
-            ok = await pipe(dgraph(config), test) 
-            //if(!ok)   
-            //    quit()
-        }})
-        await pipe(down)
-    }
+async function main() {
+    await pipe([up, 
+                [awatch(["./tests/*.js", "./schema/*.*"], 
+                    [
+                        dgraph(config), 
+                        test
+                    ]), 
+                 down
+                ]
+            ])
 }
 
 main()
