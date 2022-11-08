@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tap --no-coverage-report --no-check-coverage ./tests/*.test.js"
+    "test": "node index.js",
+    "tap": "tap --no-coverage-report --no-check-coverage ./tests/*.test.js"
   },
   "author": "yellow",
   "license": "ISC",

@@ -5,13 +5,12 @@ const {dgraph} = require('./dgraph')
 const config = require("./config")
 
 function test(){
-    npm().run('test');
+    npm().run('tap');
 }
 
 const {up, down} = docker({name: "my-container-dgraph-v6", 
                            image: "dgraph/standalone:master", 
-                           port: "8080", 
-                           waitOn: "http://localhost:8080"
+                           port: "8080"
                         })
 
 async function main() {

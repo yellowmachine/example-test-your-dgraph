@@ -19,12 +19,7 @@ function client(claims){
     return tokenizedGraphQLClient(token(claims))
 }
 
-function quote(txt){
-    return `\\"${txt}\\"`
-}
-
 module.exports = {
-    quote,
     dropData,
     gql,
     client

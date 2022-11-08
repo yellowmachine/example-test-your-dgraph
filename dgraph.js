@@ -27,9 +27,14 @@ exports.dgraph = function(config){
         const url = `${config.url}:${config.port}/admin`
         const name = config.schema
         
-        if(name.endsWith(".js")) data = require(name)
-        else data = await loadSchema(name)
-        
+        let data = ""
+        try{
+            if(name.endsWith(".js")) data = require(name)
+            else data = await loadSchema(name)
+        }catch(err){
+            console.log(err)
+            throw err
+        }
         data = data + config.schemaFooter(config)
         const schema = data.toString()
         

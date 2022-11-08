@@ -9,9 +9,12 @@ async function stopAndDelete(container){
     console.log('docker deleted')
 }
 
-exports.docker = function({image, port, name, waitOn}){
+exports.docker = function({image, port, name, waitOn=null}){
     const docker = new Docker()
     let container = null
+    if(waitOn === null){
+        waitOn = "http://localhost:" + port
+    }
     return {
         up: async () => {
             try{
