@@ -104,5 +104,6 @@ module.exports = {
     quote,
     gql,
     dropData,
+    loadSchema,
     client
 }

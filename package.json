@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "print": "node print.js",
     "test": "node index.js",
     "tap": "tap --no-coverage-report --no-check-coverage ./tests/*.test.js"
   },
