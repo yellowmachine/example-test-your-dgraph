@@ -1,5 +1,5 @@
 module.exports = {
-    schema: "./schema/schema.js",
+    schema: "./schema/schema.graphql",
     url: "http://localhost",
     port: "8080",
     claims: "https://my.app.io/jwt/claims",

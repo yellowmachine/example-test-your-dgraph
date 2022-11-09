@@ -1,5 +1,5 @@
 const tap = require('tap')
-const { dropData, client, gql} = require('./setup')
+const { dropData, client, gql} = require('../dgraph')
 
 SETUP = gql`
 mutation MyMutation {
