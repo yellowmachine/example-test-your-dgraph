@@ -3,7 +3,7 @@
 Based on [yellow-machine pipeline](https://github.com/yellowmachine/yellow-machine#readme)
 
 ```js
-const {pipe, pwatch} = require("yellow-machine")
+const {context: C} = require("yellow-machine")
 const npm = require('npm-commands')
 const {docker} = require('./docker')
 const {dgraph} = require('./dgraph')
@@ -19,8 +19,9 @@ const {up, down} = docker({name: "my-container-dgraph-v6",
                         })
 
 async function main() {
-    await pipe([up, 
-                [pwatch(["./tests/*.js", "./schema/*.*"], 
+    const {serial, w} = C();
+    await serial([up, 
+                [w(["./tests/*.js", "./schema/*.*"], 
                     [
                         dgraph(config), 
                         test
