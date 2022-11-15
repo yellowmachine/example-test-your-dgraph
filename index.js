@@ -20,7 +20,7 @@ const dql = dgraph(config)
 async function main() {
     const {serial} = C({up, dql, test, down}, {w: watch(["./tests/*.js", "./schema/*.*"])});
     await serial(`up[
-                      w[ dql | test ]
+                      w[ dql? | test ]
                       down`
     )();
 }
