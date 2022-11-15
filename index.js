@@ -1,4 +1,4 @@
-const {context: C, SHOW_QUIT_MESSAGE} = require("yellow-machine")
+const {context: C, watch, SHOW_QUIT_MESSAGE} = require("yellow-machine")
 const npm = require('npm-commands')
 const {docker} = require('./docker')
 const {dgraph} = require('./dgraph')
@@ -15,17 +15,14 @@ const {up, down} = docker({name: "my-container-dgraph-v13",
                            port: "8080"
                         })
 
+const dql = dgraph(config)
+
 async function main() {
-    const {serial, w} = C();
-    await serial([up, 
-                [w(["./tests/*.js", "./schema/*.*"], 
-                    [
-                        dgraph(config), 
-                        test
-                    ]), 
-                 down
-                ]
-            ])
+    const {serial} = C({up, dql, test, down}, {w: watch(["./tests/*.js", "./schema/*.*"])});
+    await serial(`up[
+                      w[ dql | test ]
+                      down`
+    )();
 }
 
 main()
