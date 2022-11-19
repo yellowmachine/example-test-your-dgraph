@@ -18,6 +18,6 @@
     "npm-commands": "^1.1.0",
     "tap": "^16.3.0",
     "wait-on": "^6.0.1",
-    "yellow-machine": "^1.7.0"
+    "yellow-machine": "^2.0.0"
   }
 }
