@@ -86,7 +86,8 @@ function dgraph(config){
             })
 
             if(!response.data.errors){
-                break
+                //break
+                return 'ok';
             }
 
             console.log(response.data.errors)
