@@ -18,6 +18,7 @@ exports.docker = function({image, port, name, waitOn=null}){
     return {
         up: async () => {
             try{
+                console.log('starting docker', image);
                 container = await docker.container.create({
                     Image: image,
                     name,
