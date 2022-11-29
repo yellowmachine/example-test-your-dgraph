@@ -2,6 +2,10 @@
 
 Based on [yellow-machine pipeline](https://github.com/yellowmachine/yellow-machine#readme)
 
+Pull the image:
+
+```docker pull dgraph/standalone:master```
+
 ```js
 const {compile, w, SHOW_QUIT_MESSAGE} = require("yellow-machine")
 const npm = require('npm-commands')
