@@ -17,6 +17,7 @@
     "node-docker-api": "^1.1.22",
     "npm-commands": "^1.1.0",
     "tap": "^16.3.0",
-    "wait-on": "^6.0.1"
+    "wait-on": "^6.0.1",
+    "yellow-machine": "^2.1.0"
   }
 }
